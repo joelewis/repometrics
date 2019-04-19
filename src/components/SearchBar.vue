@@ -105,8 +105,10 @@ export default {
         selectedProjects: function(selectedProjects) {
             var self = this
             self.isLoading = true
+            
+            // TODO: O(scary). Optimize by maintaining a hashmap maybe?
             var projects = selectedProjects.map(function(repoId) {
-                return this.getRepoForId(repoId) // TODO: O(scary). Optimize by maintaining a hashmap maybe?
+                return this.getRepoForId(repoId)
             }, this)
 
             // fetch commit logs for a year for each of the project.
