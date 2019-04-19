@@ -7,6 +7,8 @@ Hosted version: https://musing-shannon-9c15b4.netlify.com/
 
 **NOTE: This is just a single browser page and has no back-end. This means the entered github credentials are not saved anywhere on the server.**
 
+![](https://gitlab.com/joelewis/codemetrics/raw/master/screenshot.png)
+
 ## TODO
 
 - There's a bug (or maybe something that I'm doing wrong) that occasionally shows up as empty GitHub API responses, while fetching commit stats for a repo. Should should look into it.
