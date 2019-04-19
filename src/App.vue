@@ -44,7 +44,7 @@
           <v-flex xs12>
             <h3>
               <span class="logo-post-text">REPO</span>
-              <span class="logo-pre-text">METRICS</span> helps you to check the activity on Github repos, before deciding to adopt the open source project in your product.
+              <span class="logo-pre-text">METRICS</span> is a visual representation of activities in a GitHub repository. It helps you decide / settle on an open source project by showing if it's being actively worked upon or not.
             </h3>
             <p>
               It uses your GitHub username/password to make authenticated requests from the browser directly to GitHub. If you don't provide your credentials you will eventually run into rate-limiting problems. Made with ❤ using

@@ -1,6 +1,7 @@
 # REPOMETRICS  
 
-REPOMETRICS helps you to check the activity on Github repos, before deciding to adopt the open source project in your product.
+REPOMETRICS is a visual representation of activities in a GitHub repository. It helps you decide / settle on an open source project by showing if it's being actively worked upon or not. 
+
 It uses your GitHub username/password to make authenticated requests from the browser directly to GitHub. If you don't provide your credentials you will eventually run into rate-limiting problems.
 
 Hosted version: https://musing-shannon-9c15b4.netlify.com/
