@@ -1,9 +1,10 @@
 <template>
   <v-app dark>
     <v-toolbar dark class="main-toolbar" ma-4 app>
-        <v-toolbar-title>
-          <span class="logo-post-text">REPO</span><span class="logo-pre-text">METRICS</span>
-        </v-toolbar-title>
+      <v-toolbar-title>
+        <span class="logo-post-text">REPO</span>
+        <span class="logo-pre-text">METRICS</span>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-text-field
         class="mt-3"
@@ -33,7 +34,7 @@
         </v-layout>
         <v-layout>
           <v-flex xs12 lg8>
-            <score-graph :projects="projects" :key="key"></score-graph>
+            <commit-graph :projects="projects" :key="key"></commit-graph>
           </v-flex>
           <v-flex xs12 lg4>
             <count-graph :projects="projects" :key="key"></count-graph>
@@ -41,8 +42,15 @@
         </v-layout>
         <v-layout mt-4>
           <v-flex xs12>
-            <h3><span class="logo-post-text">REPO</span><span class="logo-pre-text">METRICS</span> helps you to check the activity on Github repos, before deciding to adopt the open source project in your product.</h3>
-            <p>It uses your GitHub username/password to make authenticated requests from the browser directly to GitHub. If you don't provide your credentials you will eventually run into rate-limiting problems. Made with ❤ using <a href="vuetify.com">Vueitfy</a> and <a href="https://developer.github.com/v3/"> GitHub API V3 </a>, and some amounts of an Easter weekend.</p>
+            <h3>
+              <span class="logo-post-text">REPO</span>
+              <span class="logo-pre-text">METRICS</span> helps you to check the activity on Github repos, before deciding to adopt the open source project in your product.
+            </h3>
+            <p>
+              It uses your GitHub username/password to make authenticated requests from the browser directly to GitHub. If you don't provide your credentials you will eventually run into rate-limiting problems. Made with ❤ using
+              <a href="https://vuetifyjs.com">Vuetify</a> and
+              <a href="https://developer.github.com/v3/">GitHub API V3</a>, and some amounts of an Easter weekend.
+            </p>
           </v-flex>
         </v-layout>
       </v-container>
@@ -53,41 +61,41 @@
 <script>
 import SearchBar from './components/SearchBar'
 import CountGraph from './components/CountGraph'
-import ScoreGraph from './components/ScoreGraph'
+import CommitGraph from './components/CommitGraph'
 
 export default {
-  name: 'App',
-  components: {
-    SearchBar,
-    CountGraph,
-    ScoreGraph
-  },
-  data () {
-    return {
-      username: '',
-      password: '',
-      projects: [],
-      key: ""
-    }
-  },
+    name: 'App',
+    components: {
+        SearchBar,
+        CountGraph,
+        CommitGraph,
+    },
+    data() {
+        return {
+            username: '',
+            password: '',
+            projects: [],
+            key: '',
+        }
+    },
 
-  watch: {
-    projects (projects) {
-      // get 
-      this.key = projects.map(project => project.id).join('-');
-    }
-  }
+    watch: {
+        projects(projects) {
+            // get
+            this.key = projects.map(project => project.id).join('-')
+        },
+    },
 }
 </script>
 
 <style>
 .logo-pre-text {
-  font-weight: 400;
+    font-weight: 400;
 }
 .logo-post-text {
-  font-weight: 900;
+    font-weight: 900;
 }
 .main-toolbar {
-  height: 80px;
+    height: 80px;
 }
 </style>

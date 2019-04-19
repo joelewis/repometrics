@@ -9,16 +9,18 @@
 <script>
 let chartOptions = {
     chart: {
-        type: 'column',
+        type: 'spline',
     },
     title: {
-        text: 'GitHub Project Metrics',
+        text: 'Git Commit Metrics',
     },
     subtitle: {
         text: 'Source: GitHub.com',
     },
     xAxis: {
-        categories: ['Forks', 'Stars', 'Watches'],
+        categories: Array.from({ length: 52 }).map(
+            (val, i) => 'Week ' + (i + 1)
+        ),
         crosshair: true,
     },
     yAxis: {
@@ -31,15 +33,22 @@ let chartOptions = {
         headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
         pointFormat:
             '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+            '<td style="padding:0"><b>{point.y:.0f} commits</b></td></tr>',
         footerFormat: '</table>',
         shared: true,
         useHTML: true,
     },
     plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0,
+        spline: {
+            lineWidth: 4,
+            states: {
+                hover: {
+                    lineWidth: 5,
+                },
+            },
+            marker: {
+                enabled: false,
+            },
         },
     },
     series: [],
@@ -64,11 +73,7 @@ export default {
         this.datapoints = this.projects.map(function(project) {
             return {
                 name: project.full_name,
-                data: [
-                    project.forks_count,
-                    project.stargazers_count,
-                    project.watchers_count,
-                ],
+                data: project.commits.map(week => week.total),
             }
         })
 
