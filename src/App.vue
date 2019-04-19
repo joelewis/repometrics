@@ -72,16 +72,16 @@ export default {
     },
     data() {
         return {
-            username: '',
-            password: '',
-            projects: [],
-            key: '',
+            username: '', // for basic authorization header
+            password: '', // for basic authorization header
+            projects: [], // list of github projects selected
+            key: '', // to re-render graphs when `this.projects` get updated
         }
     },
 
     watch: {
+        // watch projects and reset this.key to re-render graphs
         projects(projects) {
-            // get
             this.key = projects.map(project => project.id).join('-')
         },
     },

@@ -99,7 +99,7 @@ export default {
                         self.searchCache[repo.id] = repo
                     })
                     self.searchResult = Object.values(self.searchCache)
-                })
+                }) // TODO: properly handle errors
         },
 
         selectedProjects: function(selectedProjects) {
@@ -131,7 +131,7 @@ export default {
                             var resp = resp.length ? resp : []
                             project.commits = resp
                         })
-                        .catch(resp => console.log(resp))
+                        .catch(resp => console.log(resp)) // TODO: properly handle errors
                 )
             ).then(data => {
                 self.isLoading = false
@@ -154,7 +154,6 @@ export default {
                     return project
                 }
             }
-            console.log('cached items: ', this.searchResult)
             throw new Error(
                 `github repo with id ${id} cannot be found in cached items`
             )

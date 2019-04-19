@@ -72,6 +72,7 @@ export default {
             }
         })
 
+        // render graph
         var canvasElm = this.$el.querySelector('#commit-graph')
         chartOptions.series = this.datapoints
         Highcharts.chart(canvasElm, chartOptions)

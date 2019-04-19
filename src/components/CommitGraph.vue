@@ -7,6 +7,8 @@
 </template>
 
 <script>
+
+// TODO: highchartjs chart options. Find a better place to put this option template.
 let chartOptions = {
     chart: {
         type: 'spline',
@@ -77,6 +79,7 @@ export default {
             }
         })
 
+        // render graph
         var canvasElm = this.$el.querySelector('#commit-graph')
         chartOptions.series = this.datapoints
         Highcharts.chart(canvasElm, chartOptions)
