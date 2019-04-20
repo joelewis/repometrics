@@ -69,37 +69,9 @@ export default {
     watch: {
         // watch search input & update this.projects by searching through github API
         search: function(val) {
-            if (!val) {
-                return
-            }
-
             this.isLoading = true
-            var self = this // for use in callbacks
-            // make request
-            var query = encodeURI(val)
-            fetch(
-                'https://api.github.com/search/repositories?q=' +
-                    query +
-                    '&sort=stars',
-                {
-                    // TOTHINK: convert to JS template strings?
-                    headers: {
-                        Authorization: `Basic ${btoa(
-                            this.username + ':' + this.password
-                        )}`,
-                    },
-                }
-            )
-                .then(resp => {
-                    return resp.json()
-                })
-                .then(repos => {
-                    self.isLoading = false
-                    repos.items.forEach(repo => {
-                        self.searchCache[repo.id] = repo
-                    })
-                    self.searchResult = Object.values(self.searchCache)
-                }) // TODO: properly handle errors
+            // debounce requests to github to minimize number of requests.
+            this.debounce(this.fetchSuggestions.bind(this, val), 1500);
         },
 
         selectedProjects: function(selectedProjects) {
@@ -115,9 +87,7 @@ export default {
             Promise.all(
                 projects.map(project =>
                     fetch(
-                        `https://api.github.com/repos/${
-                            project.full_name
-                        }/stats/commit_activity`,
+                        `https://api.github.com/repos/${project.full_name}/stats/commit_activity`,
                         {
                             headers: {
                                 Authorization: `Basic ${btoa(
@@ -160,6 +130,47 @@ export default {
                 `github repo with id ${id} cannot be found in cached items`
             )
         },
+
+        fetchSuggestions: function(val) {
+            var self = this;
+            if (!val) {
+                self.isLoading = false
+                return;
+            }
+            // make request
+            var query = encodeURI(val)
+            fetch(
+                'https://api.github.com/search/repositories?q=' +
+                    query +
+                    '&sort=stars',
+                {
+                    // TOTHINK: convert to JS template strings?
+                    headers: {
+                        Authorization: `Basic ${btoa(
+                            self.username + ':' + self.password
+                        )}`,
+                    },
+                }
+            )
+                .then(resp => {
+                    return resp.json()
+                })
+                .then(repos => {
+                    self.isLoading = false
+                    repos.items.forEach(repo => {
+                        self.searchCache[repo.id] = repo
+                    })
+                    self.searchResult = Object.values(self.searchCache)
+                }) // TODO: properly handle errors
+        },
+
+        debounce: (function() { // A closure over timeoutId to track previous timeout.
+            var timeoutId = null;
+            return function(fn, time) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(fn, time);
+            }
+        })()
     },
 }
 </script>
