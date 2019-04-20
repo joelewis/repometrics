@@ -58,16 +58,16 @@ export default {
 
     data: function() {
         return {
-            selectedProjects: [],
-            searchResult: [],
-            searchCache: {},
+            selectedProjects: [], 
+            searchResult: [], 
+            searchCache: {}, // a cache of already fetched search results. Used to uniquify redundant suggestions.
             search: null,
             isLoading: false,
         }
     },
 
     watch: {
-        // watch search input & update this.projects by searching through github API
+        // watch search input & update this.searchResult by searching through github API
         search: function(val) {
             this.isLoading = true
             // debounce requests to github to minimize number of requests.
@@ -140,9 +140,7 @@ export default {
             // make request
             var query = encodeURI(val)
             fetch(
-                'https://api.github.com/search/repositories?q=' +
-                    query +
-                    '&sort=stars',
+                `https://api.github.com/search/repositories?q=${query}&sort=stars`,
                 {
                     // TOTHINK: convert to JS template strings?
                     headers: {
@@ -157,6 +155,7 @@ export default {
                 })
                 .then(repos => {
                     self.isLoading = false
+                    // add repos to searchCache, and then finally extract searchCache.values
                     repos.items.forEach(repo => {
                         self.searchCache[repo.id] = repo
                     })
