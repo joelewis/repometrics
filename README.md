@@ -12,7 +12,7 @@ Hosted version: https://musing-shannon-9c15b4.netlify.com/
 
 ## TODO
 
-- There's a bug (or maybe something that I'm doing wrong) that occasionally shows up as empty GitHub API responses, while fetching commit stats for a repo. Should should look into it.
+- ~~There's a bug (or maybe something that I'm doing wrong) that occasionally shows up as empty GitHub API responses, while fetching commit stats for a repo. Should should look into it.~~ Since commit stats APIs are compute intensive ones, GitHub serves only from caches for such API. If a repo doesn't have cached data the API returns a 202 (empty response), and kicks off a background process to compute and cache commit stats. This means, if we receive a 202 response, the same API should be hit again with a reasonable timeout.
 
 - Theming toggle (dark mode / light mode)
 
