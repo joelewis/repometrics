@@ -3,9 +3,9 @@
     v-model="selectedProjects"
     :loading="isLoading"
     :items="searchResult"
+    color="blue-grey lighten-2"
     box
     chips
-    color="blue-grey lighten-2"
     label="Search project in GitHub"
     item-text="full_name"
     item-value="id"
@@ -35,6 +35,8 @@
   </v-autocomplete>
 </template>
 <script>
+import {searchCache, selectedProjects} from '../starterdataset'
+
 // default exports
 export default {
     props: {
@@ -58,12 +60,19 @@ export default {
 
     data: function() {
         return {
-            selectedProjects: [], 
-            searchResult: [], 
+            selectedProjects: [], // list of selected projects
+            searchResult: [], // current list of suggestions
             searchCache: {}, // a cache of already fetched search results. Used to uniquify redundant suggestions.
-            search: null,
-            isLoading: false,
+            search: null, // current search query
+            isLoading: false, // status
         }
+    },
+
+    /** Pre-fill sample data */
+    created: function() {
+        this.searchCache = searchCache;
+        this.searchResult = selectedProjects;
+        this.selectedProjects = selectedProjects.map(repo => repo.id);
     },
 
     watch: {
