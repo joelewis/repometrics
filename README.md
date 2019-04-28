@@ -16,7 +16,7 @@ Hosted version: https://musing-shannon-9c15b4.netlify.com/
 
 - Theming toggle (dark mode / light mode)
 
-- ~~Properly handle Basic Authentication inputs. Right now it's just a couple of input fields slapped onto the toolbar. ~~
+- ~~Properly handle Basic Authentication inputs. Right now it's just a couple of input fields slapped onto the toolbar.~~
 
 - ~~Present some example sets (say, [React, Vue, Ember] or [Django, Flask, Tornado]) in the UI for first time users.~~
 
