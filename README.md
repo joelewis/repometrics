@@ -22,7 +22,7 @@ Hosted version: https://musing-shannon-9c15b4.netlify.com/
 
 - Write tests!
 
-- ~~Reduce bundle Size. We are using 1% of HighChartJS & 0.1% of Vuetify. No point in shipping them entirely to the browser.~~The production build weighs 214KB and page loads within 1.33 seconds, which is fairly reasonable.
+- ~~Reduce bundle Size. We are using 1% of HighChartJS & 0.1% of Vuetify. No point in shipping them entirely to the browser.~~ The production build weighs 214KB and page loads within 1.33 seconds, which is fairly reasonable.
 
 ## Project setup
 ```
