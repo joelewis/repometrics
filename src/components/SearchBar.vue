@@ -37,6 +37,28 @@
 <script>
 import {searchCache, selectedProjects} from '../starterdataset'
 
+var fetchCommits = function(project, username, password) {
+    return fetch(
+        `https://api.github.com/repos/${project.full_name}/stats/commit_activity`,
+        {
+            headers: {
+                Authorization: `Basic ${btoa(
+                    username + ':' + password
+                )}`,
+            },
+        }
+    )
+}
+
+var retry = function(project, username, password) {
+    return new Promise(function(resolve, reject) {
+        // make request after a second
+        setTimeout(() => {
+            fetchCommits(project, username, password).then(resp => resolve(resp))
+        }, 1000)
+    })
+}
+
 // default exports
 export default {
     props: {
@@ -94,25 +116,26 @@ export default {
 
             // fetch commit logs for a year for each of the project.
             Promise.all(
-                projects.map(project =>
-                    fetch(
-                        `https://api.github.com/repos/${project.full_name}/stats/commit_activity`,
-                        {
-                            headers: {
-                                Authorization: `Basic ${btoa(
-                                    this.username + ':' + this.password
-                                )}`,
-                            },
-                        }
-                    )
-                        .then(resp => resp.json())
+                projects.map(project => fetchCommits(project, this.username, this.password)
+                        // check for empty response
                         .then(resp => {
-                            // TODO: this is to workaround a bug in github API when it returns an empty object
-                            // instead of an array of stats. Need to find a better solution.
-                            var resp = resp.length ? resp : []
+                            if (resp.status === 202) { // empty json response, since resource not in cache. - https://developer.github.com/v3/repos/statistics/#a-word-about-caching
+                                console.warn(`API call for ${project.full_name} failed with a 202. Will retry after a second...`)
+                                // retry request and return promise of response
+                                return retry(project, self.username, self.password)
+                            } else {
+                                // return response
+                                return resp
+                            }
+                        })
+                        // read from bytes
+                        .then(resp => resp.json())
+                        // fill up project.commits
+                        .then(resp => {
                             project.commits = resp
                         })
-                        .catch(resp => console.log(resp)) // TODO: properly handle errors
+                        // TODO: properly handle errors
+                        .catch(resp => console.log(resp))
                 )
             ).then(data => {
                 self.isLoading = false
