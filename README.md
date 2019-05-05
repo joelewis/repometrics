@@ -12,7 +12,7 @@ Hosted version: https://musing-shannon-9c15b4.netlify.com/
 
 ## TODO
 
-- ~~ Since commit stats APIs are compute intensive ones, GitHub serves only from caches for such API. If a repo doesn't have cached data the API returns a 202 (empty response), and kicks off a background process to compute and cache commit stats. This means, if we receive a 202 response, the same API should be hit again with a reasonable timeout.~~ 
+- ~~Since commit stats APIs are compute intensive ones, GitHub serves only from caches for such API. If a repo doesn't have cached data the API returns a 202 (empty response), and kicks off a background process to compute and cache commit stats. This means, if we receive a 202 response, the same API should be hit again with a reasonable timeout.~~
 
 - Theming toggle (dark mode / light mode)
 
